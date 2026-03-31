@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 using LegacyRenewalApp.Helper;
 using LegacyRenewalApp.Interfaces;
 using LegacyRenewalApp.Repositories;
+=======
+>>>>>>> 3f4707b8e0873e19ee0a8963c03b0710fbc4037a
 using System;
 
 namespace LegacyRenewalApp
 {
     public class SubscriptionRenewalService
     {
+<<<<<<< HEAD
         private readonly ICustomerRepository _customerRepository;
         private readonly ISubscriptionPlanRepository _planRepository;
         private readonly IRenewalServiceValidator _validator;
@@ -25,6 +29,8 @@ namespace LegacyRenewalApp
             _billingGateway = billingGateway;
         }
 
+=======
+>>>>>>> 3f4707b8e0873e19ee0a8963c03b0710fbc4037a
         public RenewalInvoice CreateRenewalInvoice(
             int customerId,
             string planCode,
@@ -33,8 +39,30 @@ namespace LegacyRenewalApp
             bool includePremiumSupport,
             bool useLoyaltyPoints)
         {
+<<<<<<< HEAD
 
             _validator.Validate(customerId, planCode, seatCount, paymentMethod);
+=======
+            if (customerId <= 0)
+            {
+                throw new ArgumentException("Customer id must be positive");
+            }
+
+            if (string.IsNullOrWhiteSpace(planCode))
+            {
+                throw new ArgumentException("Plan code is required");
+            }
+
+            if (seatCount <= 0)
+            {
+                throw new ArgumentException("Seat count must be positive");
+            }
+
+            if (string.IsNullOrWhiteSpace(paymentMethod))
+            {
+                throw new ArgumentException("Payment method is required");
+            }
+>>>>>>> 3f4707b8e0873e19ee0a8963c03b0710fbc4037a
 
             string normalizedPlanCode = planCode.Trim().ToUpperInvariant();
             string normalizedPaymentMethod = paymentMethod.Trim().ToUpperInvariant();
@@ -206,7 +234,11 @@ namespace LegacyRenewalApp
                 GeneratedAt = DateTime.UtcNow
             };
 
+<<<<<<< HEAD
             _billingGateway.SaveInvoice(invoice);
+=======
+            LegacyBillingGateway.SaveInvoice(invoice);
+>>>>>>> 3f4707b8e0873e19ee0a8963c03b0710fbc4037a
 
             if (!string.IsNullOrWhiteSpace(customer.Email))
             {
@@ -215,7 +247,11 @@ namespace LegacyRenewalApp
                     $"Hello {customer.FullName}, your renewal for plan {normalizedPlanCode} " +
                     $"has been prepared. Final amount: {invoice.FinalAmount:F2}.";
 
+<<<<<<< HEAD
                 _billingGateway.SendEmail(customer.Email, subject, body);
+=======
+                LegacyBillingGateway.SendEmail(customer.Email, subject, body);
+>>>>>>> 3f4707b8e0873e19ee0a8963c03b0710fbc4037a
             }
 
             return invoice;
